@@ -8,8 +8,8 @@ import java.sql.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
-import org.apache.commons.text.similarity.LevenshteinDistance;
 
+import Acciones.EstablecerConexión;
 /**
  *
  * @author Personal
@@ -24,7 +24,7 @@ public class TablaDatosOperaciones extends javax.swing.JFrame {
      */
     public TablaDatosOperaciones() {
         initComponents();
-
+        
         tableModel = new DefaultTableModel();
         tableModel.setColumnIdentifiers(new Object[]{"Institución", "Proveedor", "FechaInicio", "FechaFin", "Valor", "Detalles"});
         jTable1.setModel(tableModel);
@@ -37,15 +37,12 @@ public class TablaDatosOperaciones extends javax.swing.JFrame {
     }
     
     private void cargarDatos() {
-
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.fireTableDataChanged();
         model.setRowCount(0);  // Limpia la tabla antes de cargar nuevos datos
 
         try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            String connectionURL = "jdbc:sqlserver://DESKTOP-M3DKATA\\SQLEXPRESS:1433;databaseName=PAE;user=userSQL;password=1097096174;";
-            Connection con = DriverManager.getConnection(connectionURL);
+            Connection con = EstablecerConexión.getConnection();
 
             String sql = "SELECT * FROM Operaciones";
             Statement stmt = con.createStatement();
@@ -57,10 +54,9 @@ public class TablaDatosOperaciones extends javax.swing.JFrame {
                 String ini = rs.getString("FechaInicio");
                 String fin = rs.getString("FechaFinal");
                 int val = rs.getInt("Valor");
-                String deatils = rs.getString("Detalles");
+                String details = rs.getString("Detalles");
 
-
-                model.addRow(new Object[]{inst, prov, ini, fin, val, deatils});
+                model.addRow(new Object[]{inst, prov, ini, fin, val, details});
             }
 
             con.close();

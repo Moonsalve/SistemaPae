@@ -7,6 +7,11 @@ import javax.swing.*;
 import java.sql.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
 
 /**
  *
@@ -39,8 +44,8 @@ public class TablaDatosProv extends javax.swing.JFrame {
         model.setRowCount(0);  // Limpia la tabla antes de cargar nuevos datos
 
         try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            String connectionURL = "jdbc:sqlserver://DESKTOP-M3DKATA\\SQLEXPRESS:1433;databaseName=PAE;user=userSQL;password=1097096174;";
+        	Class.forName("com.mysql.cj.jdbc.Driver");
+            String connectionURL = "jdbc:mysql://35.222.147.13:3306/PAE?user=root&password=842963";
             Connection con = DriverManager.getConnection(connectionURL);
 
             String sql = "SELECT * FROM Proveedores";

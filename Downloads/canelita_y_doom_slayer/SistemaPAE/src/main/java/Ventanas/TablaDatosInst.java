@@ -7,6 +7,11 @@ import javax.swing.*;
 import java.sql.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
 
 /**
  *
@@ -24,7 +29,7 @@ public class TablaDatosInst extends javax.swing.JFrame {
         initComponents();
 
         tableModel = new DefaultTableModel();
-        tableModel.setColumnIdentifiers(new Object[]{"ID", "Institución", "Departamento", "Municipio", "Teléfono", "eMail", "No.Estudiantes"});
+        tableModel.setColumnIdentifiers(new Object[]{"Institución", "Departamento", "Municipio", "Teléfono", "eMail", "No.Estudiantes"});
         jTable1.setModel(tableModel);
         // Crear el TableRowSorter y asignarlo a la tabla
         rowSorter = new TableRowSorter<>(tableModel);
@@ -36,19 +41,18 @@ public class TablaDatosInst extends javax.swing.JFrame {
     
     private void cargarDatos() {
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        model.setRowCount(0);  // Limpia la tabla antes de cargar nuevos datos
+        model.setRowCount(0);
 
         try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            String connectionURL = "jdbc:sqlserver://DESKTOP-M3DKATA\\SQLEXPRESS:1433;databaseName=PAE;user=userSQL;password=1097096174;";
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            String connectionURL = "jdbc:mysql://35.222.147.13:3306/PAE?user=root&password=842963";
             Connection con = DriverManager.getConnection(connectionURL);
 
-            String sql = "SELECT * FROM Insituciones";
+            String sql = "SELECT * FROM Instituciones";
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
 
             while (rs.next()) {
-                int id = rs.getInt("ID");
                 String nombre = rs.getString("NombreInstitución");
                 String dep = rs.getString("Departamento");
                 String ciudad = rs.getString("Municipio");
@@ -56,7 +60,7 @@ public class TablaDatosInst extends javax.swing.JFrame {
                 String correo = rs.getString("CorreoInstitucional");
                 int numero = rs.getInt("NumeroEstudiantes");
 
-                model.addRow(new Object[]{id, nombre, dep, ciudad, tel, correo, numero});
+                model.addRow(new Object[]{nombre, dep, ciudad, tel, correo, numero});
             }
 
             con.close();
@@ -64,6 +68,7 @@ public class TablaDatosInst extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }
+
 
     // ...
 
@@ -102,7 +107,7 @@ public class TablaDatosInst extends javax.swing.JFrame {
                 {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Id", "Institución", "Departamento", "Municipio", "Teléfono", "eMail", "No.Estudiantes"
+                "Institución", "Departamento", "Municipio", "Teléfono", "eMail", "No.Estudiantes"
             }
         ) {
             Class[] types = new Class [] {
@@ -133,7 +138,6 @@ public class TablaDatosInst extends javax.swing.JFrame {
             jTable1.getColumnModel().getColumn(3).setResizable(false);
             jTable1.getColumnModel().getColumn(4).setResizable(false);
             jTable1.getColumnModel().getColumn(5).setResizable(false);
-            jTable1.getColumnModel().getColumn(6).setResizable(false);
         }
 
         jButton1.setText("Editar");
