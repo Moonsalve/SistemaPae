@@ -31,30 +31,38 @@ public class InicioSesion extends javax.swing.JFrame {
     }
     private void verificarCredenciales(String username, String password) throws ClassNotFoundException, SQLException {
 
-        Connection connection = objCon.conectar();
+        Connection connection = null;
 
-        String query = "SELECT * FROM Admin WHERE usuario = ? AND contraseña = ?";
-        PreparedStatement preparedStatement = connection.prepareStatement(query);
-        preparedStatement.setString(1, username);
-        preparedStatement.setString(2, password);
+        try {
+            connection = EstablecerConexión.getConnection();
 
-        ResultSet resultSet = preparedStatement.executeQuery();
-        resultado = resultSet.next();
-        resultSet.close();
-        preparedStatement.close();
-        connection.close();
-        if (resultado) JOptionPane.showMessageDialog(null, "Inicio de sesión exitoso");
-        else {
-            i--;
-            JOptionPane.showMessageDialog(null, "Intento inválido, le quedan "+i+" intentos restantes antes del cierre del programa");
-        }
-        if (i==0 && !resultado){
-            JOptionPane.showMessageDialog(null, "Demasiados intentos fallidos, cerrando el programa");
-            System.exit(0);
-        }
-        else if (resultado){
-            new Inicio().setVisible(true);
-            dispose();
+            String query = "SELECT * FROM Admin WHERE usuario = ? AND contraseña = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2, password);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultado = resultSet.next();
+            resultSet.close();
+            preparedStatement.close();
+
+            if (resultado) JOptionPane.showMessageDialog(null, "Inicio de sesión exitoso");
+            else {
+                i--;
+                JOptionPane.showMessageDialog(null, "Intento inválido, le quedan " + i + " intentos restantes antes del cierre del programa");
+            }
+            if (i == 0 && !resultado) {
+                JOptionPane.showMessageDialog(null, "Demasiados intentos fallidos, cerrando el programa");
+                System.exit(0);
+            } else if (resultado) {
+                new Inicio().setVisible(true);
+                dispose();
+            }
+        } finally {
+            // Asegúrate de cerrar la conexión
+            if (connection != null) {
+                connection.close();
+            }
         }
     }
       

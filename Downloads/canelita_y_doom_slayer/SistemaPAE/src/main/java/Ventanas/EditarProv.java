@@ -13,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
+
 /**
  *
  * @author Personal
@@ -26,9 +27,9 @@ public class EditarProv extends javax.swing.JFrame {
         initComponents();
     }
     public void Editar(int id, int numero, String tel, String producto) throws ClassNotFoundException, SQLException {
-    Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-    String connectionURL = "jdbc:sqlserver://DESKTOP-M3DKATA\\SQLEXPRESS:1433;databaseName=PAE;user=userSQL;password=1097096174;";
-    Connection con = DriverManager.getConnection(connectionURL);
+    	Class.forName("com.mysql.cj.jdbc.Driver");
+        String connectionURL = "jdbc:mysql://35.222.147.13:3306/PAE?user=root&password=842963";
+        Connection con = DriverManager.getConnection(connectionURL);
     
     // Verifica si la institución con el ID proporcionado existe en la base de datos
     String selectSql = "SELECT * FROM Proveedores WHERE ID = ?";
@@ -243,8 +244,8 @@ public class EditarProv extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         int posicion=Integer.parseInt(jTextField1.getText());
         try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            String connectionURL = "jdbc:sqlserver://DESKTOP-M3DKATA\\SQLEXPRESS:1433;databaseName=PAE;user=userSQL;password=1097096174;";
+        	Class.forName("com.mysql.cj.jdbc.Driver");
+            String connectionURL = "jdbc:mysql://35.222.147.13:3306/PAE?user=root&password=842963";
             Connection con = DriverManager.getConnection(connectionURL);
             String sql = "SELECT * FROM Proveedores WHERE ID = ?";
             PreparedStatement statement = con.prepareStatement(sql);

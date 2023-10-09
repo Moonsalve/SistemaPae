@@ -1,23 +1,16 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Acciones;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-/**
- *
- * @author Personal
- */
 public class EstablecerConexión {
-    public Connection conectar() throws ClassNotFoundException, SQLException{
-        Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-        String connectionURL = "jdbc:sqlserver://DESKTOP-M3DKATA\\SQLEXPRESS:1433;databaseName=PAE;user=userSQL;password=1097096174;";
-        Connection con = DriverManager.getConnection(connectionURL);
-        return con;
+	
+	private static final String URL = "jdbc:mysql://35.222.147.13:3306/PAE";
+    private static final String USER = "root";
+    private static final String PASSWORD = "842963";
+
+    public static Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(URL, USER, PASSWORD);
     }
-    
-    }
+}
