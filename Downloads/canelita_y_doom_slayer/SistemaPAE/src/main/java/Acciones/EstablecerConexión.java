@@ -12,7 +12,7 @@ import java.sql.SQLException;
  *
  * @author Personal
  */
-public class EstablecerConexión {
+public class main EstablecerConexión {
     public Connection conectar() throws ClassNotFoundException, SQLException{
         Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
         String connectionURL = "jdbc:sqlserver://DESKTOP-M3DKATA\\SQLEXPRESS:1433;databaseName=PAE;user=userSQL;password=1097096174;";
